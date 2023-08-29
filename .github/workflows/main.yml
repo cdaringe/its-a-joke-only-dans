@@ -12,7 +12,7 @@ jobs:
     permissions:
       contents: write
     env:
-      NEXT_PUBLIC_BASE_PATH: /onlydans
+      NEXT_PUBLIC_BASE_PATH: /its-a-joke-only-dans
     runs-on: ubuntu-latest
     steps:
       # https://github.com/JamesIves/github-pages-deploy-action#getting-started-airplane
