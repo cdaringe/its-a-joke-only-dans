@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import Image from "next/image";
 import styles from "./page.module.css";
@@ -30,25 +31,23 @@ export default function Home() {
   return (
     <main ref={scrollRef} className={styles.main}>
       <div className={styles.dandan}>
-        <Image
+        <img
           className={styles.dandanimg}
-          src="/dan.png"
+          src="dan.png"
           alt="dan dan DAN"
           width={700}
           height={953}
-          priority
           style={{
             opacity: opacityA,
             transform: `translate(-50%, -50%) scale(${scale}, ${scale})`,
           }}
         />
-        <Image
+        <img
           className={styles.dandanimg}
-          src="/butts.jpg"
+          src="butts.jpg"
           alt="just buts"
           width={1080}
           height={1080}
-          priority
           style={{
             opacity: opacityB,
             transform: `translate(-40%, -50%) scale(${scale * 0.1}, ${
