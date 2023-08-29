@@ -1,95 +1,62 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import Image from "next/image";
+import styles from "./page.module.css";
+import React, { useRef, useState } from "react";
+
+const MAX_SCROLL_Y = 20000;
+const MAX_ZOOM = 10;
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+  const scrollRef = useRef<HTMLElement | null>(null);
+  const [y, setY] = useState(0);
+  const scale = 1 + (MAX_ZOOM - 1) * (y / MAX_SCROLL_Y);
 
-      <div className={styles.center}>
+  const [opacityA, setOpacityA] = React.useState(1);
+  const [opacityB, setOpacityB] = React.useState(0);
+  // console.log(JSON.stringify({ y, scale, MAX_SCROLL_Y }));
+  React.useEffect(() => {
+    window.addEventListener("scroll", function (ev) {
+      const nextY = this.scrollY;
+      setY(nextY);
+      const nextOa = Math.max(
+        0,
+        nextY > 15000 ? (MAX_SCROLL_Y - nextY) / 5000 - 0.15 : 1
+      );
+      setOpacityA(nextOa);
+      setOpacityB(1 - nextOa);
+    });
+  }, []);
+
+  return (
+    <main ref={scrollRef} className={styles.main}>
+      <div className={styles.dandan}>
         <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
+          className={styles.dandanimg}
+          src="/dan.png"
+          alt="dan dan DAN"
+          width={700}
+          height={953}
           priority
+          style={{
+            opacity: opacityA,
+            transform: `translate(-50%, -50%) scale(${scale}, ${scale})`,
+          }}
+        />
+        <Image
+          className={styles.dandanimg}
+          src="/butts.jpg"
+          alt="just buts"
+          width={1080}
+          height={1080}
+          priority
+          style={{
+            opacity: opacityB,
+            transform: `translate(-40%, -50%) scale(${scale * 0.1}, ${
+              scale * 0.1
+            })`,
+          }}
         />
       </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
+  );
 }
